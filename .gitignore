@@ -1,7 +1,7 @@
 # Project exclude paths
-/.client/target/
-/.server/target/
-/.server/target/scala-2.13/classes/
-/project/project/target/
-/project/target/
+/client/target/
+/server/target/
 /target/
+/.bsp/
+/.idea/
+/project/
