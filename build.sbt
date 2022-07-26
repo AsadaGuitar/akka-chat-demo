@@ -17,15 +17,11 @@ lazy val server = (project in file("server"))
     name := "akka_websocket_demo_server",
     libraryDependencies ++= Seq(
       // actor
-      "com.typesafe.akka"         %% "akka-actor-typed"                    % akkaVersion,
+      "com.typesafe.akka"         %% "akka-actor"                          % akkaVersion,
       // http
       "com.typesafe.akka"         %% "akka-http"                           % akkaHttpVersion,
-      "com.typesafe.akka"         %% "akka-http-spray-json"                % akkaHttpVersion,
       // streams
       "com.typesafe.akka"         %% "akka-stream"                         % akkaVersion,
-      "com.typesafe.akka"         %% "akka-stream-typed"                   % akkaVersion,
-      // serialization
-      "com.typesafe.akka"         %% "akka-serialization-jackson"          % akkaVersion,
       // logging
       "com.typesafe.akka"         %% "akka-slf4j"                          % akkaVersion,
       "ch.qos.logback"            %  "logback-classic"                     % logbackVersion
