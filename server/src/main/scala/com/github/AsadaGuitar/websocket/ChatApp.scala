@@ -25,8 +25,6 @@ object ChatApp extends App {
   implicit val ec: ExecutionContextExecutor = system.dispatcher
   implicit val timeout: Timeout = Timeout(5 seconds)
 
-  var repository: Map[String, ChatRoom] = Map()
-
   val router =
     path(Segment) { roomId =>
       logger.info(roomId)
