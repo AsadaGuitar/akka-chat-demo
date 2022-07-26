@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>OurChat</title>
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <h2 class="border-bottom my-5">OurChat</h2>
+
+        <div class="d-flex flex-column" id="join-page">
+            <label for="room-id">Room ID
+                <input type="text" class="form-control pc-w-50 phone-w-100" id="room-id" placeholder="xxxx-xxxx-xxxx">
+                <p class="text-danger pc-fs-px-18 m-0 mx-1 p-0" id="room-id-err"></p>
+            </label>
+            <div class="my-2"></div>
+            <label for="username">Username
+                <input type="text" class="form-control pc-w-50 phone-w-100" id="username" placeholder="username">
+                <p class="text-danger pc-fs-px-18 m-0 mx-1 p-0" id="username-err"></p>
+            </label>
+            <div class="my-3"></div>
+            <button class="btn btn-primary pc-w-25 phone-w-100" onclick="joinRoom()">Join</button>
+            <p class="text-danger pc-fs-px-18 m-0 mx-1 p-0" id="join-err"></p>
+        </div>
+
+        <div class="flex-column d-none" id="chat-room">
+            <p class="fs-4" id="room_id_text">Room ID</p>
+            <div class="row">
+                <div class="col d-flex flex-column" id="chat-box">
+                    <p>username: message</p>
+                </div>
+                <div class="col d-flex flex-column">
+                    <label for="text" class="fs-5">Your Message
+                        <input type="text" class="mt-1 form-control pc-w-75 phone-w-100" id="text" placeholder="message">
+                        <p class="text-danger pc-fs-px-18 m-0 mx-1 p-0" id="text-err"></p>
+                    </label>
+                    <div class="my-3"></div>
+                    <button class="btn btn-primary w-50" onclick="sendMessage()">send</button>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>
+
+<!-- extension bootstrap css -->
+<style rel="stylesheet">
+    @media screen and (min-width:480px) and (max-width:1024px){
+        * {
+            font-size: 42px;
+        }
+        .phone-w-100 {
+            width: 100%;
+        }
+    }
+
+    @media screen and (min-width:1024px) {
+        * {
+            font-size: 18px;
+        }
+        .pc-w-75 {
+            width: 75%;
+        }
+        .pc-w-50 {
+            width: 50%;
+        }
+        .pc-w-25 {
+            width: 25%;
+        }
+        .pc-fs-px-18 {
+            font-size: 18px;
+        }
+
+    }
+</style>
+
+<!-- extension bootstrap js -->
+<script type="text/javascript">
+</script>
+
+<script type="text/javascript">
+
+    let connection = null
+
+    const join_page = document.getElementById("join-page");
+    const chat_room = document.getElementById("chat-room");
+    const invalid_empty = "Empty characters are not allowed."
+
+    function showChatRoom(room_id) {
+        join_page.classList.remove("d-flex");
+        join_page.classList.add("d-none");
+        chat_room.classList.remove("d-none");
+        chat_room.classList.add("d-flex");
+        document.getElementById("room_id_text").textContent = room_id;
+    }
+
+    function leaveChatRoom() {
+        chat_room.classList.remove("d-flex");
+        chat_room.classList.add("d-none");
+        join_page.classList.remove("d-none");
+        join_page.classList.add("d-flex");
+    }
+
+    // 接続
+    function joinRoom() {
+
+        let room_id = document.getElementById("room-id").value;
+        let username = document.getElementById("username").value;
+
+        let err_flag = false;
+
+        if (!room_id) {
+            document.getElementById("room-id-err").textContent = invalid_empty;
+            err_flag = true;
+        }
+        if (!username) {
+            document.getElementById("username-err").textContent = invalid_empty;
+            err_flag = true;
+        }
+
+        if (err_flag) { return }
+
+        let ws_uri = `ws://127.0.0.1:8888/${room_id}?username=${username}`
+        connection = new WebSocket(ws_uri);
+        console.log("connected.");
+
+        showChatRoom(room_id);
+
+        // 接続通知
+        connection.onopen = function(event) {};
+
+        //エラー発生
+        connection.onerror = function(exception) {
+            document.getElementById("join-err").value = "Room ID does not exist.";
+        };
+
+        //メッセージ受信
+        connection.onmessage = function(event) {
+            let new_elem = document.createElement('p');
+            new_elem.textContent = event.data;
+            document.getElementById("chat-box").appendChild(new_elem);
+        };
+
+        //切断
+        connection.onclose = function() {
+            leaveChatRoom()
+        };
+    }
+
+    //メッセージ送信
+    function sendMessage() {
+        let msg = document.getElementById("text").value;
+        console.log(`message: ${msg}.`);
+        if (!msg) {
+            document.getElementById("text-err").textContent = invalid_empty;
+            return;
+        }
+        connection.send(msg);
+    }
+
+</script>

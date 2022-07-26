@@ -1,0 +1,13 @@
+2022/07/26 10:52:31.182 [INFO] [akka.event.slf4j.Slf4jLogger] Slf4jLogger started
+2022/07/26 10:52:32.896 [INFO] [com.github.AsadaGuitar.websocket.ChatApp$] Server online at http://127.0.0.1:8888/
+2022/07/26 10:53:11.163 [INFO] [com.github.AsadaGuitar.websocket.ChatApp$] 0001
+2022/07/26 10:53:11.189 [INFO] [com.github.AsadaGuitar.websocket.ChatApp$] John
+2022/07/26 10:53:11.217 [INFO] [com.github.AsadaGuitar.websocket.ChatRoomService$] created room id=0001 username=John
+2022/07/26 10:53:11.240 [INFO] [akka.actor.ActorSystemImpl] Join User: John.
+2022/07/26 10:53:22.733 [INFO] [com.github.AsadaGuitar.websocket.ChatApp$] 0001
+2022/07/26 10:53:22.734 [INFO] [com.github.AsadaGuitar.websocket.ChatApp$] Kate
+2022/07/26 10:53:22.736 [INFO] [akka.actor.ActorSystemImpl] Join User: Kate.
+2022/07/26 10:53:37.223 [INFO] [akka.actor.ActorSystemImpl] Send Message By: John.
+2022/07/26 10:53:47.196 [INFO] [akka.actor.ActorSystemImpl] Send Message By: Kate.
+2022/07/26 10:53:50.781 [INFO] [akka.actor.RepointableActorRef] Message [java.lang.String] to Actor[akka://chatApp/user/$a#875511526] was unhandled. [1] dead letters encountered. This logging can be turned off or adjusted with configuration settings 'akka.log-dead-letters' and 'akka.log-dead-letters-during-shutdown'.
+2022/07/26 10:53:51.215 [INFO] [akka.actor.RepointableActorRef] Message [java.lang.String] to Actor[akka://chatApp/user/$c#-146686007] was unhandled. [2] dead letters encountered. This logging can be turned off or adjusted with configuration settings 'akka.log-dead-letters' and 'akka.log-dead-letters-during-shutdown'.
